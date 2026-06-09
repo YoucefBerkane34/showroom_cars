@@ -4,7 +4,7 @@ class AppTheme {
   static ThemeData light = ThemeData(
     useMaterial3: true,
     colorSchemeSeed: Colors.blue,
-    cardTheme: CardTheme(
+    cardTheme: const CardThemeData(
       elevation: 2,
       margin: EdgeInsets.all(8),
     ),

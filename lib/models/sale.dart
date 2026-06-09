@@ -1,59 +1,59 @@
 class Sale {
   int? id;
-
   int vehicleId;
   int clientId;
-
-  double price;
+  String saleDate;
+  double totalPrice;
   double paidAmount;
   double remainingAmount;
+  String paymentMethod; // cash, bank_transfer, ccp, cheque
+  String status; // draft, confirmed, completed, cancelled
+  String? notes;
 
-  bool isCredit;
-  int months;
-  double monthlyPayment;
-
-  String date;
+  // Joined data (not stored in DB)
+  String? vehicleDisplay;
+  String? clientDisplay;
 
   Sale({
     this.id,
     required this.vehicleId,
     required this.clientId,
-    required this.price,
-    required this.paidAmount,
-    required this.remainingAmount,
-    required this.date,
-    this.isCredit = false,
-    this.months = 0,
-    this.monthlyPayment = 0,
+    required this.saleDate,
+    required this.totalPrice,
+    this.paidAmount = 0,
+    this.remainingAmount = 0,
+    this.paymentMethod = 'cash',
+    this.status = 'draft',
+    this.notes,
+    this.vehicleDisplay,
+    this.clientDisplay,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'vehicle_id': vehicleId,
-      'client_id': clientId,
-      'price': price,
-      'paid_amount': paidAmount,
-      'remaining_amount': remainingAmount,
-      'is_credit': isCredit ? 1 : 0,
-      'months': months,
-      'monthly_payment': monthlyPayment,
-      'date': date,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'vehicle_id': vehicleId,
+        'client_id': clientId,
+        'sale_date': saleDate,
+        'total_price': totalPrice,
+        'paid_amount': paidAmount,
+        'remaining_amount': remainingAmount,
+        'payment_method': paymentMethod,
+        'status': status,
+        'notes': notes,
+      };
 
-  factory Sale.fromMap(Map<String, dynamic> map) {
-    return Sale(
-      id: map['id'],
-      vehicleId: map['vehicle_id'],
-      clientId: map['client_id'],
-      price: map['price'],
-      paidAmount: map['paid_amount'],
-      remainingAmount: map['remaining_amount'],
-      isCredit: map['is_credit'] == 1,
-      months: map['months'],
-      monthlyPayment: map['monthly_payment'],
-      date: map['date'],
-    );
-  }
+  factory Sale.fromMap(Map<String, dynamic> m) => Sale(
+        id: m['id'],
+        vehicleId: m['vehicle_id'],
+        clientId: m['client_id'],
+        saleDate: m['sale_date'] ?? '',
+        totalPrice: (m['total_price'] ?? 0).toDouble(),
+        paidAmount: (m['paid_amount'] ?? 0).toDouble(),
+        remainingAmount: (m['remaining_amount'] ?? 0).toDouble(),
+        paymentMethod: m['payment_method'] ?? 'cash',
+        status: m['status'] ?? 'draft',
+        notes: m['notes'],
+        vehicleDisplay: m['vehicle_display'],
+        clientDisplay: m['client_display'],
+      );
 }
